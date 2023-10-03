@@ -1,6 +1,6 @@
 const { product, electronic, furniture, clothing } = require('../../models/product.model')
 const { Types } = require("mongoose")
-const { getSelectData, UngetSelectData } = require('../../utils')
+const { getSelectData, UngetSelectData, convertToObjectIdMongodb } = require('../../utils')
 const findAllDraftsForShop = async ({ query, limit, skip }) => {
     return await queryProduct({ query, limit, skip })
 }
@@ -58,6 +58,9 @@ const findProduct = async ({ product_id, unSelect }) => {
 const updateProductById = async ({ product_id, payload, model, isNew = true }) => {
     return await model.findByIdAndUpdate(product_id, payload, { new: isNew })
 }
+const getProductById = async (productId) => {
+    return await product.findOne({ _id: convertToObjectIdMongodb(productId) }).lean()
+}
 module.exports = {
     findAllDraftsForShop,
     publishProductByShop,
@@ -66,5 +69,6 @@ module.exports = {
     searchProductsByUser,
     findAllProducts,
     findProduct,
-    updateProductById
+    updateProductById,
+    getProductById
 }
