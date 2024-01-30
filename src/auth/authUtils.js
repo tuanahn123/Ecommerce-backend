@@ -7,7 +7,7 @@ const KeyTokenService = require('../services/keyToken.services')
 const HEADER = {
     API_KEY: 'x-api-key',
     CLIENT_ID: 'x-client-id',
-    AUTHORIZATION: 'athorization'
+    AUTHORIZATION: 'authorization'
 }
 const createTokenPair = async (payload, publicKey, privateKey) => {
     try {

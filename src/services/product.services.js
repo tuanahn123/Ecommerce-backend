@@ -12,6 +12,7 @@ const {
 } = require('../models/repositories/product.repo')
 const { removeUndefinedObject, updateNestedObjectParser } = require('../utils')
 const insertInventory = require('../models/repositories/inventory.repo')
+const NotificationService = require('./notification.service')
 // defince Factory class to create product
 
 class ProductFactory {
@@ -57,7 +58,7 @@ class ProductFactory {
         return await searchProductsByUser({ keySearch })
     }
     static async findAllProducts({ limit = 50, sort = 'ctime', page = 1, filter = { isPublished: true } }) {
-        return await findAllProducts({ limit, sort, page, filter, select: ['product_name', 'product_price', 'product_thumb','product_shop'] })
+        return await findAllProducts({ limit, sort, page, filter, select: ['product_name', 'product_price', 'product_thumb', 'product_shop'] })
     }
     static async findProduct({ product_id }) {
         return await findProduct({ product_id, unSelect: ['__v'] })
@@ -89,6 +90,17 @@ class Product {
                 shopId: this.product_shop,
                 stock: this.product_quantity
             })
+            // push Noti to system collection
+            const rs = await NotificationService.pushNotiToSystem({
+                type: "SHOP-001",
+                receivedId: 1,
+                senderId: this.product_shop,
+                option: {
+                    product_name: this.product_name,
+                    shop_name: this.product_shop
+                }
+            })
+            console.log(rs)
         }
         return newProduct
     }
@@ -97,7 +109,7 @@ class Product {
         return await updateProductById({ product_id, payload, model: product })
     }
 }
-// TODO Define sub-clss for different product types Clothing
+// TODO Define sub-class for different product types Clothing
 class Clothing extends Product {
     async createProduct() {
         const newClothing = await clothing.create({

@@ -4,7 +4,7 @@ const {
 
 const HEADER = {
     API_KEY: 'x-api-key',
-    AUTHUORIZATION: 'authourization'
+    AUTHORIZATION: 'authorization'
 }
 
 
@@ -36,21 +36,19 @@ const permission = (permission) => {
     return (req, res, next) => {
         if (!req.objKey.permissions) {
             return res.status(403).json({
-                message: 'Permisstion denied'
+                message: 'permission denied'
             })
         }
 
         const validPermisstion = req.objKey.permissions.includes(permission)
         if (!validPermisstion) {
             return res.status(403).json({
-                message: 'Permisstion denied'
+                message: 'permission denied'
             })
         }
         return next()
     }
 }
-
-
 
 
 module.exports = {

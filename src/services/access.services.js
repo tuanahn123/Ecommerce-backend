@@ -22,7 +22,7 @@ const RoleShop = {
     ADMIN: 'ADMIN'
 }
 class AccessService {
-    static handlerRefeshToken = async (refreshToken) => {
+    static handlerRefreshToken = async (refreshToken) => {
         const foundToken = await KeyTokenService.findByRefreshTokenUsed(refreshToken)
         if (foundToken) {
             const { userId, email } = await verifyJWT(refreshToken, foundToken.privateKey)
@@ -36,8 +36,8 @@ class AccessService {
         // TODO verifyToken
         const { userId, email } = await verifyJWT(refreshToken, holderToken.privateKey)
         // TODO check UserId
-        const foundShop = ShopServices.findByEmail({email})
-        if (!foundShop) throw new AuthFailureError('Shop not rgister')
+        const foundShop = ShopServices.findByEmail({ email })
+        if (!foundShop) throw new AuthFailureError('Shop not register')
 
         const tokens = await createTokenPair({ userId: foundShop._id, email }, holderToken.publicKey, holderToken.privateKey)
 
@@ -52,7 +52,7 @@ class AccessService {
             }
         )
         return {
-            user: {userId, email},
+            user: { userId, email },
             tokens
         }
 
