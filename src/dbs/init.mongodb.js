@@ -6,7 +6,9 @@ const {
         port
     }
 } = require("../configs/config.mongdb")
-const connectString = `mongodb://${host}:${port}/${name}`
+// const connectString = `mongodb://${host}:${port}/${name}`
+const atlasConnectString = process.env.MONGODB_CONNECT_STRING;
+
 const {
     countConnect
 } = require("../helpers/check.connect")
@@ -22,11 +24,11 @@ class Database {
                 color: true
             })
         }
-        mongoose.connect(connectString, {
-                maxPoolSize: 50
-            }).then(_ => {
-                console.log(`Connect Mongodb Success `, countConnect())
-            })
+        mongoose.connect(atlasConnectString, {
+            maxPoolSize: 50
+        }).then(_ => {
+            console.log(`Connect Mongodb Success `, countConnect())
+        })
             .catch(err => console.log(err))
     }
     static getInstance() {
