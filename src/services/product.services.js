@@ -12,7 +12,7 @@ const {
 } = require('../models/repositories/product.repo')
 const { removeUndefinedObject, updateNestedObjectParser } = require('../utils')
 const insertInventory = require('../models/repositories/inventory.repo')
-const NotificationService = require('./notification.services')
+const NotificationService = require('./notification.service')
 // defince Factory class to create product
 
 class ProductFactory {
@@ -90,16 +90,17 @@ class Product {
                 shopId: this.product_shop,
                 stock: this.product_quantity
             })
-            // push noti to system collection
-            await NotificationService.pushNotiToSystem({
-                type: 'SHOP-001',
+            // push Noti to system collection
+            const rs = await NotificationService.pushNotiToSystem({
+                type: "SHOP-001",
                 receivedId: 1,
                 senderId: this.product_shop,
-                options: {
+                option: {
                     product_name: this.product_name,
-                    shop_name: this.product_shop,
+                    shop_name: this.product_shop
                 }
             })
+            console.log(rs)
         }
         return newProduct
     }
@@ -108,7 +109,7 @@ class Product {
         return await updateProductById({ product_id, payload, model: product })
     }
 }
-// TODO Define sub-clss for different product types Clothing
+// TODO Define sub-class for different product types Clothing
 class Clothing extends Product {
     async createProduct() {
         const newClothing = await clothing.create({

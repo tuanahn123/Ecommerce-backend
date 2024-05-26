@@ -1,9 +1,9 @@
-const { SuccessRespone } = require('../core/success.response')
+const { SuccessResponse } = require('../core/success.response')
 const CartService = require('../services/cart.services')
 
 class CartController {
     addToCart = async (req, res, next) => {
-        new SuccessRespone({
+        new SuccessResponse({
             message: 'Add to cart success',
             metadata: await CartService.addToCart({
                 ...req.body,
@@ -12,7 +12,7 @@ class CartController {
     }
     // !Update
     update = async (req, res, next) => {
-        new SuccessRespone({
+        new SuccessResponse({
             message: 'Update cart success',
             metadata: await CartService.addToCartV2({
                 ...req.body,
@@ -20,7 +20,7 @@ class CartController {
         }).send(res)
     }
     delete = async (req, res, next) => {
-        new SuccessRespone({
+        new SuccessResponse({
             message: 'Delete cart success',
             metadata: await CartService.deleteUserCart({
                 ...req.body,
@@ -28,7 +28,7 @@ class CartController {
         }).send(res)
     }
     listToCart = async (req, res, next) => {
-        new SuccessRespone({
+        new SuccessResponse({
             message: 'List to cart success',
             metadata: await CartService.getListUserCart(req.query)
         }).send(res)

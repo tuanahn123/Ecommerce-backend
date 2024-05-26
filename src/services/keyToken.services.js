@@ -1,5 +1,5 @@
 const { filter } = require("lodash")
-const keytokenModel = require("../models/keytoken.model")
+const keyTokenSchema = require("../models/keytoken.model")
 const { Types } = require('mongoose')
 class KeyTokenService {
     static createKeyToken = async ({
@@ -12,7 +12,7 @@ class KeyTokenService {
             const filter = { user: userId }, update = {
                 publicKey, privateKey, refreshTokenUsed: [], refreshToken
             }, options = { upsert: true, new: true }
-            const tokens = await keytokenModel.findOneAndUpdate(filter, update, options)
+            const tokens = await keyTokenSchema.findOneAndUpdate(filter, update, options)
             return tokens ? tokens.publicKey : null
         } catch (error) {
             return {
@@ -23,20 +23,20 @@ class KeyTokenService {
         }
     }
     static findByUserId = async (userId) => {
-        return await keytokenModel.findOne({ user: new Types.ObjectId(userId) }).lean()
+        return await keyTokenSchema.findOne({ user: new Types.ObjectId(userId) }).lean()
 
     }
     static removeKeyById = async (id) => {
-        return await keytokenModel.deleteOne(id);
+        return await keyTokenSchema.deleteOne(id);
     }
     static findByRefreshTokenUsed = async (refeshToken) => {
-        return await keytokenModel.findOne({ refreshTokenUsed: refeshToken }).lean();
+        return await keyTokenSchema.findOne({ refreshTokenUsed: refeshToken }).lean();
     }
     static findByRefreshToken = async (refeshToken) => {
-        return await keytokenModel.findOne({ refreshToken: refeshToken });
+        return await keyTokenSchema.findOne({ refreshToken: refeshToken });
     }
     static deleteKeyById = async (userId) => {
-        return await keytokenModel.deleteOne({ user: userId });
+        return await keyTokenSchema.deleteOne({ user: userId });
     }
 }
 module.exports = KeyTokenService
