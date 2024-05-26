@@ -12,6 +12,7 @@ const {
 } = require('../models/repositories/product.repo')
 const { removeUndefinedObject, updateNestedObjectParser } = require('../utils')
 const insertInventory = require('../models/repositories/inventory.repo')
+const NotificationService = require('./notification.services')
 // defince Factory class to create product
 
 class ProductFactory {
@@ -57,7 +58,7 @@ class ProductFactory {
         return await searchProductsByUser({ keySearch })
     }
     static async findAllProducts({ limit = 50, sort = 'ctime', page = 1, filter = { isPublished: true } }) {
-        return await findAllProducts({ limit, sort, page, filter, select: ['product_name', 'product_price', 'product_thumb','product_shop'] })
+        return await findAllProducts({ limit, sort, page, filter, select: ['product_name', 'product_price', 'product_thumb', 'product_shop'] })
     }
     static async findProduct({ product_id }) {
         return await findProduct({ product_id, unSelect: ['__v'] })
@@ -88,6 +89,16 @@ class Product {
                 productId: newProduct._id,
                 shopId: this.product_shop,
                 stock: this.product_quantity
+            })
+            // push noti to system collection
+            await NotificationService.pushNotiToSystem({
+                type: 'SHOP-001',
+                receivedId: 1,
+                senderId: this.product_shop,
+                options: {
+                    product_name: this.product_name,
+                    shop_name: this.product_shop,
+                }
             })
         }
         return newProduct
