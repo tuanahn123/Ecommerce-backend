@@ -3,8 +3,8 @@ const { apiKey, permission } = require("../src/auth/checkAuth");
 const router = express.Router()
 
 // TODO Check apiKey
-router.use(apiKey)
-router.use(permission('0000'))
+// router.use(apiKey)
+// router.use(permission('0000'))
 
 // TODO check permission
 

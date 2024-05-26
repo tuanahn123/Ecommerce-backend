@@ -9,7 +9,7 @@ router.post("/shop/signup", asyncHandler(accessController.signUp))
 router.post("/shop/login", asyncHandler(accessController.login))
 
 //TODO authentication
-router.use(authentication)
+// router.use(authentication)
 router.post("/shop/handlerRefreshToken", asyncHandler(accessController.handlerRefreshToken))
 router.post("/shop/logout", asyncHandler(accessController.logout))
 module.exports = router
