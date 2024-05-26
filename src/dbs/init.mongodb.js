@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
-const {
-    db: {
-        host,
-        name,
-        port
-    }
-} = require("../configs/config.mongdb")
+// const {
+//     db: {
+//         host,
+//         name,
+//         port
+//     }
+// } = require("../configs/config.mongdb")
 // const connectString = `mongodb://${host}:${port}/${name}`
 const atlasConnectString = process.env.MONGODB_CONNECT_STRING;
 
