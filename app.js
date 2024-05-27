@@ -4,6 +4,7 @@ const app = express();
 // const morgan = require('morgan')
 const helmet = require('helmet');
 const compression = require('compression');
+const path = require('path');
 // TODO init middlewares
 // app.use(morgan("dev"))
 app.use(helmet())
@@ -19,7 +20,8 @@ const {
     checkOverload
 } = require("./src/helpers/check.connect")
 checkOverload()
-
+app.set('views', path.join(__dirname, 'src/views'));
+app.set('view engine', 'ejs');
 
 // TODO init router
 app.use('/', require("./routers/index"))

@@ -8,7 +8,9 @@ const router = express.Router()
 
 // TODO check permission
 
-
+router.get("", (req, res, next) => {
+    res.render("index")
+})
 router.use("/v1/api/product", require('./product'))
 router.use("/v1/api/discount", require('./discount'))
 router.use("/v1/api/notification", require('./notification'))
